@@ -37,7 +37,7 @@ const switch_range_num = 6
 // 设置初始值
 var max = workSheetsFromBuffer[0].data.length-1,
     f_num_front = 7020,
-    f_num_end = 18,
+    f_num_end = 17,
     c_num_end = 183,
     unit = '件',
     note,

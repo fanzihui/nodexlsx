@@ -7,7 +7,7 @@ const random_name = config.random_name()
 // 跨度声明，轨高变化
 
 // 获取文件
-const get_file = fs.readFileSync(`${dir_name}/assets/BOMLEG_1.xlsx`)
+const get_file = fs.readFileSync(`${dir_name}/assets/LEG_1.xlsx`)
 
 // 读取文件
 const workSheetsFromBuffer = xlsx.parse(get_file);
@@ -28,11 +28,11 @@ var switch_num = 2
 var switch_val = 188
 
 // 设置数量范围及基值
-const switch_range = [0,6.4,7.3,7.5]
+const switch_range = [0,6.5,7.3,7.5]
 const switch_range_num = 6
 
 // 引入上一个文件,获取前置码,后置码
-const leg_data  = require('./3tbom_leg_0')
+const leg_data  = require('./leg_0')
 
 // 设置初始值
 var max = workSheetsFromBuffer[0].data.length-1,
@@ -44,7 +44,7 @@ var max = workSheetsFromBuffer[0].data.length-1,
     version = 00,
     span = 5,
     orbital = 6.1,
-    t = 3
+    t = 5
 
 // 设置不变的值
 var switch_arr = [
@@ -140,7 +140,7 @@ function setxlsx(max,span,t,code,orbital,span_string,photo_code) {
             // 类型
             arr.push(workSheetsFromBuffer[0].data[i][20])
         } else {
-            let sumup = `二级BOM ${sheet_name} ${t}T，${span_string}，${((orbital * 10 - 1) / 10)}˂H0≤${orbital}（图号：Z6023${photo_code}）`
+            let sumup = `二级BOM ${sheet_name} ${t}T，${span_string}，${((orbital * 10 - 1) / 10)}˂H0≤${orbital}（图号：Z6033${photo_code}）`
             arr.push(sumup)
         }
         data.push(arr)
@@ -167,7 +167,7 @@ function setExcel(span,orbital,span_string,photo_code){
 }
 
 // 2t 4.5˂S≤11m, 6˂S≤7.5m
-setExcel(span,orbital,'4.5˂S≤11m',4)
+setExcel(span,orbital,'4.5˂S≤11m',2)
 
 // 合并单元格
 // const range = {s: {c: 0, r:0 }, e: {c:0, r:3}}; // A1:A4
@@ -195,8 +195,11 @@ var global_test = false
 
 if(process.env.NODE_ENV == 'dev' && global_test){
     fs.writeFileSync(`${config.root}/output/${t}t/` + `${file_name}${random_name}` + '.xlsx', buffer, 'binary');
-} 
-console.log(`输出完毕,文件名字是: ${file_name}${random_name}` + '.xlsx')
+    console.log(`输出完毕,文件名字是: ${file_name}${random_name}` + '.xlsx')
+} else{
+    console.log(`检测完毕,可以输出: ${file_name}${random_name}` + '.xlsx')
+}
+
 
 // 导出相关接口
 module.exports = {

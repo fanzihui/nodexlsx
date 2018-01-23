@@ -1,23 +1,29 @@
 const fs = require('fs');
 const xlsx = require('node-xlsx').default;
-const config = require('../config.js')
+const dir_name = __dirname.replace(/(.+\\)(.+)/, '$1')
+const config = require(`${dir_name.replace(/(.+\\)(src.+)/ig,'$1')}config.js`)
 const file_name = __filename.replace(/.*\\(.*)(\.\w+)/, '$1')
 const random_name = config.random_name()
 
 // 跨度变化，轨高声明
 
 // 获取文件
-const dir_name = __dirname.replace(/(.+\\)(.+)/,'$1')
-const get_file = fs.readFileSync(`${dir_name}/src/3t/BMHBOM3T_1.xlsx`)
+const get_file = fs.readFileSync(`${dir_name}/assets/BEAM_1.xlsx`)
+
 // 读取文件
 const workSheetsFromBuffer = xlsx.parse(get_file);
 
 const data = [];
 // 设置表名
-const sheet_name = '前支腿'
+const sheet_name = '主梁'
 
 // 设置首行
 data.push(config.bom)
+
+// 引入上一个文件,获取前置码,后置码
+const beam_data  = require('./beam_0')
+// console.log('f_num_end',beam_data.f_num_end)
+// console.log('c_num_end',beam_data.c_num_end)
 
 // 设置switch case 的值
 const switch_case = 13
@@ -25,7 +31,7 @@ const switch_case = 13
 const switch_i = 11
 // 设置要变的值中在某处跳动的值和数字
 var switch_num = 8
-var switch_val = 233
+var switch_val = beam_data.c_num_end + 3
 
 // 设置数量范围及基值
 const switch_range = [0,12,13,14]
@@ -33,15 +39,15 @@ const switch_range_num = 10
 
 // 设置初始值
 var max = workSheetsFromBuffer[0].data.length-1,
-    f_num_front = 7004,
-    f_num_end = 172,
-    c_num_end = 230,
+    f_num_front = beam_data.f_num_front,
+    f_num_end = beam_data.f_num_end,
+    c_num_end = beam_data.c_num_end,
+    t = beam_data.t,
     unit = '件',
     note,
     version = 00,
     span = 11.5,
-    orbital = 4.5,
-    t = 3
+    orbital = 4.5
 
 // 设置不变的值
 var switch_arr = [
@@ -52,13 +58,13 @@ var switch_arr = [
     '7001-00003',
     '7001-00004',
     '7004-00052',
-    '7004-00234',
-    '7004-00235',
-    '7004-00236',
-    '7004-00237',
-    '7004-00238',
-    '7004-00239',
-    '7004-00240'
+    '7004-00393',
+    '7004-00394',
+    '7004-00395',
+    '7004-00396',
+    '7004-00397',
+    '7004-00398',
+    '7004-00399',
 ];
 /**
  * 
@@ -197,18 +203,25 @@ var buffer = xlsx.build([
     }
 ],option);
 
-// 写入文件
-if(process.env.NODE_ENV == 'dev'){
-    fs.writeFileSync(`${dir_name}/output/` + `${file_name}${random_name}` + '.xlsx', buffer, 'binary');
-} 
-console.log(`输出完毕,文件名字是: ${file_name}${random_name}` + '.xlsx')
+// 写入文件 
+// const output = dir_name.replace(/(.+\\)(src.+)/ig,'$1')
+// 手动修改是否联动
+var global_test = false
+
+if(process.env.NODE_ENV == 'dev' && global_test){
+    fs.writeFileSync(`${config.root}/output/${t}t/` + `${file_name}${random_name}` + '.xlsx', buffer, 'binary');
+    console.log(`输出完毕,文件名字是: ${file_name}${random_name}` + '.xlsx')
+} else{
+    console.log(`检测完毕,可以输出: ${file_name}${random_name}` + '.xlsx')
+}
 
 // 导出相关接口
 module.exports = {
     file : `${file_name}${random_name}` + '.xlsx',
     data: data,
     f_num_end: f_num_end,
-    c_num_end: c_num_end
+    c_num_end: c_num_end,
+    f_num_front: f_num_front,
+    t: t,
 }
-console.log(f_num_end)
-console.log(c_num_end)
+

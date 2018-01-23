@@ -1,50 +1,55 @@
 const fs = require('fs');
 const xlsx = require('node-xlsx').default;
-const config = require('../config.js')
+const dir_name = __dirname.replace(/(.+\\)(.+)/, '$1')
+const config = require(`${dir_name.replace(/(.+\\)(src.+)/ig,'$1')}config.js`)
 const file_name = __filename.replace(/.*\\(.*)(\.\w+)/, '$1')
 const random_name = config.random_name()
 
 // 跨度变化，轨高声明
 
 // 获取文件
-const dir_name = __dirname.replace(/(.+\\)(.+)/,'$1')
-const get_file = fs.readFileSync(`${dir_name}/src/3t/BMHBOM3T_2.xlsx`)
+const get_file = fs.readFileSync(`${dir_name}/assets/BEAM_2.xlsx`)
+
 // 读取文件
 const workSheetsFromBuffer = xlsx.parse(get_file);
 
 const data = [];
 // 设置表名
-const sheet_name = '前支腿'
+const sheet_name = '主梁'
 
 // 设置首行
 data.push(config.bom)
 
+// 引入上一个文件,获取前置码,后置码
+const beam_data  = require('./beam_1')
+// console.log('f_num_end',beam_data.f_num_end)
+// console.log('c_num_end',beam_data.c_num_end)
+
 // 设置switch case 的值
-const switch_case = 16
+const switch_case = 15
+
 // 设置要改变数量在那一行
 const switch_i = 11
+
 // 设置要变的值中在某处跳动的值和数字
 var switch_num = 8
-var switch_val = 258
-
+var switch_val = beam_data.c_num_end + 3
 
 // 设置数量范围及基值
 const switch_range = [0,15,16,17]
-const switch_range_num = 13
+const switch_range_num = 12
 
 // 设置初始值
 var max = workSheetsFromBuffer[0].data.length-1,
-    f_num_front = 7004,
-    // 这个值为上一个js的最后一个值
-    f_num_end = 178,
-    // 这个值为 上一个js的最后一个值
-    c_num_end = 255,
+    f_num_front = beam_data.f_num_front,
+    f_num_end = beam_data.f_num_end,
+    c_num_end = beam_data.c_num_end,
+    t = beam_data.t,
     unit = '件',
     note,
     version = 00,
     span = 14.5,
-    orbital = 4.5,
-    t = 3
+    orbital = 4.5
 
 // 设置不变的值
 var switch_arr = [
@@ -55,13 +60,13 @@ var switch_arr = [
    '7001-00003',
    '7001-00004',
    '7004-00052',
-   '7004-00259',
-   '7004-00260',
-   '7004-00261',
-   '7004-00262',
-   '7004-00263',
-   '7004-00264',
-   '7004-00265'
+   '7004-00418',
+   '7004-00419',
+   '7004-00420',
+   '7004-00421',
+   '7004-00422',
+   '7004-00423',
+   '7004-00424',
 ];
 /**
  * 
@@ -175,7 +180,7 @@ function setExcel(span,orbital,orbital_string,photo_code){
 }
 
 
-// 3t 11˂H0≤14m
+// 3t 14˂H0≤17m
 setExcel(span,orbital,'4.4˂H0≤7.5m',3)
 // 3t 14˂H0≤17m
 // setExcel(span,orbital,'6˂H0≤7.5m',0,true)
@@ -199,17 +204,24 @@ var buffer = xlsx.build([
     }
 ]);
 
-// 写入文件
-if(process.env.NODE_ENV == 'dev'){
-    fs.writeFileSync(`${dir_name}/output/` + `${file_name}${random_name}` + '.xlsx', buffer, 'binary');
-} 
-console.log(`输出完毕,文件名字是: ${file_name}${random_name}` + '.xlsx')
+// 写入文件 
+// const output = dir_name.replace(/(.+\\)(src.+)/ig,'$1')
+// 手动修改是否联动
+var global_test = 0
+
+if(process.env.NODE_ENV == 'dev' && global_test){
+    fs.writeFileSync(`${config.root}/output/${t}t/` + `${file_name}${random_name}` + '.xlsx', buffer, 'binary');
+    console.log(`输出完毕,文件名字是: ${file_name}${random_name}` + '.xlsx')
+} else{
+    console.log(`检测完毕,可以输出: ${file_name}${random_name}` + '.xlsx')
+}
 
 // 导出相关接口
 module.exports = {
     file : `${file_name}${random_name}` + '.xlsx',
     data: data,
     f_num_end: f_num_end,
-    c_num_end: c_num_end
+    c_num_end: c_num_end,
+    f_num_front: f_num_front,
 }
 

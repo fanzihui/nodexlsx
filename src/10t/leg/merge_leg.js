@@ -1,6 +1,7 @@
 const fs = require('fs');
 const xlsx = require('node-xlsx').default;
-const config = require('../../../config.js')
+const dir_name = __dirname.replace(/(.+\\)(.+)/, '$1')
+const config = require(`${dir_name.replace(/(.+\\)(src.+)/ig,'$1')}config.js`)
 const file_name = __filename.replace(/.*\\(.*)(\.\w+)/, '$1')
 const random_name = config.random_name()
 
@@ -56,7 +57,7 @@ var buffer = xlsx.build([
     }
 ],option);
 
-const t = 3
+const t = 5
 // 写入文件
 config.is_fileexists(`${config.root}/output/${t}t/`)
 fs.writeFileSync(`${config.root}/output/${t}t/${file_name}${random_name}` + '.xlsx', buffer, 'binary');

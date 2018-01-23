@@ -7,7 +7,7 @@ const random_name = config.random_name()
 // 跨度声明，轨高变化
 
 // 获取文件
-const get_file = fs.readFileSync(`${dir_name}/assets/BOMLEG_3.xlsx`)
+const get_file = fs.readFileSync(`${dir_name}/assets/LEG_3.xlsx`)
 
 // 读取文件
 const workSheetsFromBuffer = xlsx.parse(get_file);
@@ -30,11 +30,11 @@ var switch_num = 2
 var switch_val = 419
 
 // 设置数量范围及基值
-const switch_range = [0,4.7,5.6,6.5,7.3,7.5]
+const switch_range = [0,4.8,5.7,6.5,7.3,7.5]
 const switch_range_num = 4
 
 // 引入上一个文件,获取前置码,后置码
-const leg_data  = require('./3tbom_leg_2')
+const leg_data  = require('./leg_2')
 
 // 设置初始值
 var max = workSheetsFromBuffer[0].data.length-1,
@@ -46,7 +46,7 @@ var max = workSheetsFromBuffer[0].data.length-1,
     version = 00,
     span = 5,
     orbital = 4.5,
-    t = 3
+    t = 5
 // 设置不变的值
 var switch_arr = [
     `${f_num_front}-00100`, 
@@ -197,12 +197,15 @@ var buffer = xlsx.build([
 // 写入文件 
 // const output = dir_name.replace(/(.+\\)(src.+)/ig,'$1')
 // 手动修改是否联动
-var global_test = true
+var global_test = false
 
 if(process.env.NODE_ENV == 'dev' && global_test){
     fs.writeFileSync(`${config.root}/output/${t}t/` + `${file_name}${random_name}` + '.xlsx', buffer, 'binary');
-} 
-console.log(`输出完毕,文件名字是: ${file_name}${random_name}` + '.xlsx')
+    console.log(`输出完毕,文件名字是: ${file_name}${random_name}` + '.xlsx')
+} else{
+    console.log(`检测完毕,可以输出: ${file_name}${random_name}` + '.xlsx')
+}
+
 
 // 导出相关接口
 module.exports = {
