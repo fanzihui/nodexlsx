@@ -21,34 +21,41 @@ const sheet_name = '前支腿'
 // 设置首行
 data.push(config.bom)
 
+
+// 引入上一个文件,获取前置码,后置码
+const leg_data  = require(`${config.root}/src/5t/leg/leg_1.js`)
+
+// console.log('f_num_end',leg_data.f_num_end)
+// console.log('c_num_end',leg_data.c_num_end)
+
 // 设置switch case 的值
 const switch_case = 10
 // 设置要改变数量在那一行
 const switch_i = 5
 // 设置要变的值中在某处跳动的值和数字
-var switch_num = 4
-var switch_val = 105
+var switch_num = 2
+var switch_val = 1223
 
 // 设置数量范围及基值
-const switch_range = [0,4.8,5.6,6]
+const switch_range = [0,4.7,5.6,6]
 const switch_range_num = 4
 
 // 设置初始值
 var max = workSheetsFromBuffer[0].data.length - 1,
-    f_num_front = 7022,
-    f_num_end = 2,
-    c_num_end = 100,
+    f_num_front = 7020,
+    f_num_end = leg_data.c_num_end+1,
+    c_num_end = 1218,
+    t = 10,
     unit = '件',
     note,
     version = 00,
     span = 5,
-    orbital = 4.5,
-    t = 5
+    orbital = 4.5
 
 // 设置不变的值
 var switch_arr = [
     `${f_num_front}-00100`, 
-    `${f_num_front}-00106`, 
+    `${f_num_front}-01224`, 
     `${f_num_front}-00107`, 
     `${f_num_front}-00108`
 ];
@@ -139,7 +146,7 @@ function setxlsx(max, span, t, code, orbital, span_string, photo_code) {
             arr.push(workSheetsFromBuffer[0].data[i][20])
         } else {
             let inner_photo_code = '1'
-            let sumup = `二级BOM ${sheet_name} ${t}T，${span_string}，${((orbital * 10 - 1) / 10)}˂H0≤${orbital}（图号：Z60${t}3${photo_code ? photo_code : inner_photo_code}）`
+            let sumup = `二级BOM ${sheet_name} ${t}T，${span_string}，${((orbital * 10 - 1) / 10)}˂H0≤${orbital}（图号：Z6${t}S3${photo_code ? photo_code : inner_photo_code}）`
             arr.push(sumup)
         }
         data.push(arr)
@@ -189,7 +196,7 @@ var buffer = xlsx.build([{
 // 写入文件 
 // const output = dir_name.replace(/(.+\\)(src.+)/ig,'$1')
 // 手动修改是否联动
-var global_test = false
+var global_test = 0
 
 if(process.env.NODE_ENV == 'dev' && global_test){
     fs.writeFileSync(`${config.root}/output/${t}t/` + `${file_name}${random_name}` + '.xlsx', buffer, 'binary');
@@ -205,4 +212,5 @@ module.exports = {
     f_num_end: f_num_end,
     c_num_end: c_num_end,
     f_num_front: f_num_front,
+    t: t,
 }

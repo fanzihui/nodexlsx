@@ -7,7 +7,7 @@ const random_name = config.random_name()
 // 跨度声明，轨高变化
 
 // 获取文件
-const get_file = fs.readFileSync(`${dir_name}/assets/LEG_3.xlsx`)
+const get_file = fs.readFileSync(`${dir_name}/assets/LEG_2.xlsx`)
 
 // 读取文件
 const workSheetsFromBuffer = xlsx.parse(get_file);
@@ -19,40 +19,44 @@ const sheet_name = '前支腿'
 // 设置首行
 data.push(config.bom)
 
+// 引入上一个文件,获取前置码,后置码
+const leg_data  = require('./leg_1')
+console.log('f_num_end',leg_data.f_num_end)
+console.log('c_num_end',leg_data.c_num_end)
+
 // 设置switch case 的值
 const switch_case = 10
-
 // 设置要改变数量在那一行
 const switch_i = 5
-
 // 设置要变的值中在某处跳动的值和数字
 var switch_num = 2
-var switch_val = 419
+var switch_val = leg_data.c_num_end + 5
 
 // 设置数量范围及基值
-const switch_range = [0,4.8,5.7,6.5,7.3,7.5]
+const switch_range = [0,4.8,5.6,6.3,7.2,7.5]
 const switch_range_num = 4
-
-// 引入上一个文件,获取前置码,后置码
-const leg_data  = require('./leg_2')
 
 // 设置初始值
 var max = workSheetsFromBuffer[0].data.length-1,
     f_num_front = leg_data.f_num_front,
     f_num_end = leg_data.f_num_end,
     c_num_end = leg_data.c_num_end,
+    t = leg_data.t,
     unit = '件',
     note,
     version = 00,
     span = 5,
-    orbital = 4.5,
-    t = 5
+    orbital = 4.5
+
 // 设置不变的值
 var switch_arr = [
     `${f_num_front}-00100`, 
-    `${f_num_front}-00420`, 
     `${f_num_front}-00107`, 
-    `${f_num_front}-00108`
+    `${f_num_front}-00108`,
+    `${f_num_front}-01461`,
+    `${f_num_front}-00094`,
+    `${f_num_front}-00095`,
+    `${f_num_front}-00096`,
 ];
 /**
  * 
@@ -168,7 +172,7 @@ function setExcel(span,orbital,span_string,photo_code){
 }
 
 // 2t 4.5˂S≤11m, 4.4˂S≤6m
-setExcel(span,orbital,'14˂S≤17m',2)
+setExcel(span,orbital,'14˂S≤17m',3)
 // 2t 11˂S≤14米
 // setExcel(span,orbital,'11˂S≤14米',3)
 // 2t 4.5˂S≤11米
@@ -182,7 +186,7 @@ setExcel(span,orbital,'14˂S≤17m',2)
 // const range = {s: {c: 0, r:21 }, e: {c:20, r:21}}; // A22:U2
 // const range = {s: {c: 0, r:31 }, e: {c:20, r:31}}; // A32:U2
 
-const rangeArr = config.merge_cell((17-(span-0.5))/0.5*4,0,20,10)
+const rangeArr = config.merge_cell((17-(span-0.5))/0.5*4,0,20,13)
 // console.log(rangeArr)
 const option = {'!merges': rangeArr}
 
@@ -197,7 +201,7 @@ var buffer = xlsx.build([
 // 写入文件 
 // const output = dir_name.replace(/(.+\\)(src.+)/ig,'$1')
 // 手动修改是否联动
-var global_test = false
+var global_test = 0
 
 if(process.env.NODE_ENV == 'dev' && global_test){
     fs.writeFileSync(`${config.root}/output/${t}t/` + `${file_name}${random_name}` + '.xlsx', buffer, 'binary');
@@ -206,7 +210,6 @@ if(process.env.NODE_ENV == 'dev' && global_test){
     console.log(`检测完毕,可以输出: ${file_name}${random_name}` + '.xlsx')
 }
 
-
 // 导出相关接口
 module.exports = {
     file : `${file_name}${random_name}` + '.xlsx',
@@ -214,5 +217,5 @@ module.exports = {
     f_num_end: f_num_end,
     c_num_end: c_num_end,
     f_num_front: f_num_front,
+    t: t,
 }
-

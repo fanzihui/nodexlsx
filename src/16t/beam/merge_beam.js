@@ -45,7 +45,7 @@ for(let i = 0 ; i < file_arr.length ;i++){
 // const range = {s: {c: 0, r:21 }, e: {c:20, r:21}}; // A22:U2
 // const range = {s: {c: 0, r:31 }, e: {c:20, r:31}}; // A32:U2
 
-const rangeArr = config.merge_cell((17-(5-0.5))/0.5*4,0,20,10)
+const rangeArr = config.merge_cell((17-(5-0.5))/0.5*4,0,20,18)
 // console.log(rangeArr)
 const option = {'!merges': rangeArr}
 
@@ -57,7 +57,7 @@ var buffer = xlsx.build([
     }
 ],option);
 
-const t = 10
+const t = 16
 // 写入文件
 config.is_fileexists(`${config.root}/output/${t}t/`)
 fs.writeFileSync(`${config.root}/output/${t}t/${t}t${file_name}${random_name}` + '.xlsx', buffer, 'binary');

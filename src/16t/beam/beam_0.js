@@ -20,9 +20,9 @@ const sheet_name = '主梁'
 data.push(config.bom)
 
 // 引入上一个文件,获取前置码,后置码
-const beam_data = require(`${config.root}/src/5t/beam/beam_2.js`)
-// console.log('f_num_end', beam_data.f_num_end)
-// console.log('c_num_end', beam_data.c_num_end)
+const beam_data = require(`${config.root}/src/10t/beam/beam_2.js`)
+console.log('f_num_end', beam_data.f_num_end)
+console.log('c_num_end', beam_data.c_num_end)
 
 // 设置switch case 的值
 const switch_case = 6
@@ -137,7 +137,7 @@ function setxlsx(max, span, t, code, orbital, orbital_string, photo_code, is_fla
             // 老图纸名称
             let old_photo
             if (is_flange) {
-                old_photo = (i == 17 ? '板 12X590X830' : workSheetsFromBuffer[0].data[i][6])
+                old_photo = (i == 17 ? '板 12×640×950' : workSheetsFromBuffer[0].data[i][6])
             } else {
                 old_photo = workSheetsFromBuffer[0].data[i][6]
             }

@@ -35,7 +35,7 @@ var switch_val = leg_data.c_num_end + 3
 
 // 设置数量范围及基值
 const switch_range = [0,12,13,14]
-const switch_range_num = 10
+const switch_range_num = 9
 
 // 设置初始值
 var max = workSheetsFromBuffer[0].data.length-1,
@@ -150,7 +150,7 @@ function setxlsx(max,span,t,code,orbital,orbital_string,photo_code) {
             arr.push(workSheetsFromBuffer[0].data[i][20])
         } else {
             let inner_photo_code = photo_code == 0 ? 1 : 2;
-            let sumup = `二级BOM ${sheet_name} ${t}T，${((span * 10 - 5) / 10)}˂S≤${span}，${orbital_string}（图号：M60${t}3${photo_code ? photo_code : inner_photo_code}）`
+            let sumup = `二级BOM ${sheet_name} ${t}T，${((span * 10 - 5) / 10)}˂S≤${span}，${orbital_string}（图号：M6${t >= 10 ? t : '0' + t}3${photo_code ? photo_code : inner_photo_code}）`
             arr.push(sumup)
         }
         data.push(arr)

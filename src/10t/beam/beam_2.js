@@ -22,8 +22,8 @@ data.push(config.bom)
 
 // 引入上一个文件,获取前置码,后置码
 const leg_data  = require('./beam_1')
-console.log('f_num_end',leg_data.f_num_end)
-console.log('c_num_end',leg_data.c_num_end)
+// console.log('f_num_end',leg_data.f_num_end)
+// console.log('c_num_end',leg_data.c_num_end)
 
 // 设置switch case 的值
 const switch_case = 15
@@ -152,7 +152,7 @@ function setxlsx(max,span,t,code,orbital,orbital_string,photo_code) {
             arr.push(workSheetsFromBuffer[0].data[i][20])
         } else {
             let inner_photo_code = photo_code == 0 ? 1 : 2;
-            let sumup = `二级BOM ${sheet_name} ${t}T，${((span * 10 - 5) / 10)}˂S≤${span}，${orbital_string}（图号：M60${t}3${photo_code ? photo_code : inner_photo_code}）`
+            let sumup = `二级BOM ${sheet_name} ${t}T，${((span * 10 - 5) / 10)}˂S≤${span}，${orbital_string}（图号：M6${t >= 10 ? t : '0' + t}3${photo_code ? photo_code : inner_photo_code}）`
             arr.push(sumup)
         }
         data.push(arr)
@@ -207,7 +207,7 @@ var buffer = xlsx.build([
 // 写入文件 
 // const output = dir_name.replace(/(.+\\)(src.+)/ig,'$1')
 // 手动修改是否联动
-var global_test = 1
+var global_test = 0
 
 if(process.env.NODE_ENV == 'dev' && global_test){
     fs.writeFileSync(`${config.root}/output/${t}t/` + `${file_name}${random_name}` + '.xlsx', buffer, 'binary');

@@ -13,47 +13,51 @@ const get_file = fs.readFileSync(`${dir_name}/assets/LEG_1.xlsx`)
 const workSheetsFromBuffer = xlsx.parse(get_file);
 
 const data = [];
-// 设置表名
-const sheet_name = '前支腿'
 
 // 设置首行
 data.push(config.bom)
 
+
+// 设置表名
+const sheet_name = '前支腿'
+
+// 引入上一个文件,获取前置码,后置码
+const leg_data  = require('./leg_0')
+
+// console.log('f_num_end',leg_data.f_num_end)
+// console.log('c_num_end',leg_data.c_num_end)
+
 // 设置switch case 的值
-const switch_case = 14
+const switch_case = 10
 // 设置要改变数量在那一行
 const switch_i = 5
 // 设置要变的值中在某处跳动的值和数字
 var switch_num = 2
-var switch_val = 188
+var switch_val = leg_data.c_num_end + 5
 
 // 设置数量范围及基值
-const switch_range = [0,6.5,7.3,7.5]
-const switch_range_num = 6
-
-// 引入上一个文件,获取前置码,后置码
-const leg_data  = require('./leg_0')
+const switch_range = [0,4.7,5.6,6.4,7.2,7.5]
+const switch_range_num = 4
 
 // 设置初始值
 var max = workSheetsFromBuffer[0].data.length-1,
     f_num_front = leg_data.f_num_front,
     f_num_end = leg_data.f_num_end,
     c_num_end = leg_data.c_num_end,
+    t = leg_data.t,
     unit = '件',
     note,
     version = 00,
     span = 5,
-    orbital = 6.1,
-    t = 5
+    orbital = 4.5
 
 // 设置不变的值
 var switch_arr = [
     `${f_num_front}-00100`, 
-    `${f_num_front}-00189`, 
+    `${f_num_front}-01305`, 
     `${f_num_front}-00107`, 
     `${f_num_front}-00108`
 ];
-
 /**
  * 
  * @param {*循环数量} max 
@@ -140,7 +144,8 @@ function setxlsx(max,span,t,code,orbital,span_string,photo_code) {
             // 类型
             arr.push(workSheetsFromBuffer[0].data[i][20])
         } else {
-            let sumup = `二级BOM ${sheet_name} ${t}T，${span_string}，${((orbital * 10 - 1) / 10)}˂H0≤${orbital}（图号：Z6033${photo_code}）`
+            let inner_photo_code = '3'
+            let sumup = `二级BOM ${sheet_name} ${t}T，${span_string}，${((orbital * 10 - 1) / 10)}˂H0≤${orbital}（图号：Z6${t}3${photo_code ? photo_code : inner_photo_code}）`
             arr.push(sumup)
         }
         data.push(arr)
@@ -156,7 +161,7 @@ function setxlsx(max,span,t,code,orbital,span_string,photo_code) {
  */
 function setExcel(span,orbital,span_string,photo_code){
     let inner_span = span,
-        inner_max =(6-4.5)*10,
+        inner_max =(7.5-4.5)*10+1,
         inner_orbital = orbital
     for(let i = 0 ; i < inner_max ; i++){
         setxlsx(max,inner_span,t,f_num_end,inner_orbital,span_string,photo_code);
@@ -166,8 +171,9 @@ function setExcel(span,orbital,span_string,photo_code){
     }
 }
 
-// 2t 4.5˂S≤11m, 6˂S≤7.5m
-setExcel(span,orbital,'4.5˂S≤11m',2)
+// 3t 11˂S≤14m
+setExcel(span,orbital,'11˂S≤14m',2)
+
 
 // 合并单元格
 // const range = {s: {c: 0, r:0 }, e: {c:0, r:3}}; // A1:A4
@@ -191,7 +197,7 @@ var buffer = xlsx.build([
 // 写入文件 
 // const output = dir_name.replace(/(.+\\)(src.+)/ig,'$1')
 // 手动修改是否联动
-var global_test = false
+var global_test = 0
 
 if(process.env.NODE_ENV == 'dev' && global_test){
     fs.writeFileSync(`${config.root}/output/${t}t/` + `${file_name}${random_name}` + '.xlsx', buffer, 'binary');
@@ -200,7 +206,6 @@ if(process.env.NODE_ENV == 'dev' && global_test){
     console.log(`检测完毕,可以输出: ${file_name}${random_name}` + '.xlsx')
 }
 
-
 // 导出相关接口
 module.exports = {
     file : `${file_name}${random_name}` + '.xlsx',
@@ -208,4 +213,5 @@ module.exports = {
     f_num_end: f_num_end,
     c_num_end: c_num_end,
     f_num_front: f_num_front,
+    t: t,
 }

@@ -102,14 +102,11 @@ var config = {
     },
     // 父子项代号后置码
     five_num(num) {
+        let sum = 5
         let inner_num = parseInt(num)
-        if (inner_num >= 100) {
-            inner_num = `00${inner_num}`
-        } else if (inner_num >= 10) {
-            inner_num = `000${inner_num}`
-        } else {
-            inner_num = `0000${inner_num}`
-        }
+        let len = num.toString().length
+        let base = '0'
+        inner_num = `${base.repeat(sum-len)}${inner_num}`
         return inner_num
     },
     // 产品编码
