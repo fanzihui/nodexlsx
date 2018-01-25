@@ -37,7 +37,7 @@ var switch_val = leg_data.c_num_end + 3
 
 // 设置数量范围及基值
 const switch_range = [0,14.5,15.5,16.5,17]
-const switch_range_num = 12
+const switch_range_num = 11
 
 // 设置初始值
 var max = workSheetsFromBuffer[0].data.length-1,
@@ -60,13 +60,14 @@ var switch_arr = [
    '7001-00003',
    '7001-00004',
    '7004-00052',
-   '7004-00565',
-   '7004-00566',
-   '7004-00567',
-   '7004-00568',
-   '7004-00569',
-   '7004-00570',
-   '7004-00571',
+   '7004-00731',
+   '7004-00732',
+   '7004-00733',
+   '7004-00734',
+   '7004-00735',
+   '7004-00736',
+   '7004-00737',
+
 ];
 /**
  * 
@@ -207,7 +208,7 @@ var buffer = xlsx.build([
 // 写入文件 
 // const output = dir_name.replace(/(.+\\)(src.+)/ig,'$1')
 // 手动修改是否联动
-var global_test = 1
+var global_test = 0
 
 if(process.env.NODE_ENV == 'dev' && global_test){
     fs.writeFileSync(`${config.root}/output/${t}t/` + `${file_name}${random_name}` + '.xlsx', buffer, 'binary');

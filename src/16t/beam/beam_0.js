@@ -21,35 +21,35 @@ data.push(config.bom)
 
 // 引入上一个文件,获取前置码,后置码
 const beam_data = require(`${config.root}/src/10t/beam/beam_2.js`)
-console.log('f_num_end', beam_data.f_num_end)
-console.log('c_num_end', beam_data.c_num_end)
+// console.log('f_num_end', beam_data.f_num_end)
+// console.log('c_num_end', beam_data.c_num_end)
 
 // 设置switch case 的值
-const switch_case = 6
+const switch_case = 5
 // 设置要改变数量在那一行
 const switch_i = 11
 // 设置要变的值中在某处跳动的值和数字
 var switch_num = 8
 // 321是在此处要跳动的值
-var switch_val = 480
+var switch_val = 627
 
 // 设置数量范围及基值
 const switch_range = [0, 5, 6, 7, 8, 9, 10, 11]
-const switch_range_num = 3
+const switch_range_num = 2
 
 // 设置初始值
 var max = workSheetsFromBuffer[0].data.length - 1,
     f_num_front = 7004,
     f_num_end = beam_data.c_num_end + 1,
-    c_num_end = 477,
+    c_num_end = 624,
     unit = '件',
     note,
     version = 00,
     span = 5,
     orbital = 4.5,
-    t = 10,
+    t = 16,
     // 第一次循环完的最后一个值 
-    flange_num = 523
+    flange_num = 683
 
 // 设置不变的值
 var switch_arr = [
@@ -60,12 +60,12 @@ var switch_arr = [
     '7001-00003',
     '7001-00004',
     '7004-00052',
-    '7004-00481',
-    '7004-00482',
-    '7004-00483',
-    '7004-00484',
-    '7004-00485',
-    '7004-00486',
+    '7004-00628',
+    '7004-00629',
+    '7004-00630',
+    '7004-00631',
+    '7004-00632',
+    '7004-00633',
 ];
 /**
  * 
@@ -101,6 +101,7 @@ function setxlsx(max, span, t, code, orbital, orbital_string, photo_code, is_fla
                         arr.push(`${f_num_front}-${config.five_num(flange_num)}`)
                     } else {
                         c_num_end = (c_num_end == switch_val ? c_num_end + switch_num : c_num_end + 1)
+                        // console.log(c_num_end)
                         arr.push(`${f_num_front}-${config.five_num(c_num_end)}`)
                     }
                 }
@@ -113,13 +114,13 @@ function setxlsx(max, span, t, code, orbital, orbital_string, photo_code, is_fla
                     case `7001-00003`:
                     case `7001-00004`:
                     case '7004-00052':
-                    case '7004-00481':
-                    case '7004-00482':
-                    case '7004-00483':
-                    case '7004-00484':
-                    case '7004-00485':
-                    case '7004-00486':
-                    case '7004-00487':
+                    case '7004-00628':
+                    case '7004-00629':
+                    case '7004-00630':
+                    case '7004-00631':
+                    case '7004-00632':
+                    case '7004-00633':
+                    case '7004-00634':
                         arr.push(workSheetsFromBuffer[0].data[i][3])
                         break;
                     default:
@@ -216,7 +217,7 @@ function setExcel(span, orbital, orbital_string, photo_code, is_flange) {
     let inner_span = span,
         inner_max = (17.5 - (span - 0.5)),
         inner_orbital = orbital
-    is_flange ? c_num_end = 477 : null
+    is_flange ? c_num_end = 624 : null
     for (let i = 0; i < inner_max; i++) {
         setxlsx(max, inner_span, t, f_num_end, inner_orbital, orbital_string, photo_code, is_flange);
         inner_span = (inner_span * 10 + 5) / 10
@@ -231,7 +232,7 @@ setExcel(span, orbital, '4.4˂H0≤6m', 0, false)
 // 3t 6˂H0≤11m
 setExcel(span, orbital, '6˂H0≤7.5m', 0, true)
 
-// const rangeArr = config.merge_cell((17-(span-0.5))/0.5*4,0,20,10)
+// const rangeArr = config.merge_cell((17-(span-0.5))/0.5*4,0,20,19)
 const rangeArr = []
 // console.log(rangeArr)
 const option = {

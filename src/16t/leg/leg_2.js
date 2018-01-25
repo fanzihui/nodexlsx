@@ -21,8 +21,8 @@ data.push(config.bom)
 
 // 引入上一个文件,获取前置码,后置码
 const leg_data  = require('./leg_1')
-console.log('f_num_end',leg_data.f_num_end)
-console.log('c_num_end',leg_data.c_num_end)
+// console.log('f_num_end',leg_data.f_num_end)
+// console.log('c_num_end',leg_data.c_num_end)
 
 // 设置switch case 的值
 const switch_case = 10
@@ -33,7 +33,7 @@ var switch_num = 2
 var switch_val = leg_data.c_num_end + 5
 
 // 设置数量范围及基值
-const switch_range = [0,4.8,5.6,6.3,7.2,7.5]
+const switch_range = [0,4.9,5.6,6.3,7.2,7.5]
 const switch_range_num = 4
 
 // 设置初始值
@@ -50,13 +50,13 @@ var max = workSheetsFromBuffer[0].data.length-1,
 
 // 设置不变的值
 var switch_arr = [
-    `${f_num_front}-00100`, 
-    `${f_num_front}-00107`, 
-    `${f_num_front}-00108`,
-    `${f_num_front}-01461`,
     `${f_num_front}-00094`,
     `${f_num_front}-00095`,
     `${f_num_front}-00096`,
+    `${f_num_front}-00100`, 
+    `${f_num_front}-00107`, 
+    `${f_num_front}-00108`,
+    `${f_num_front}-01932`,
 ];
 /**
  * 

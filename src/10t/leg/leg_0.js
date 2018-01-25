@@ -146,7 +146,7 @@ function setxlsx(max, span, t, code, orbital, span_string, photo_code) {
             arr.push(workSheetsFromBuffer[0].data[i][20])
         } else {
             let inner_photo_code = '1'
-            let sumup = `二级BOM ${sheet_name} ${t}T，${span_string}，${((orbital * 10 - 1) / 10)}˂H0≤${orbital}（图号：Z6${t}S3${photo_code ? photo_code : inner_photo_code}）`
+            let sumup = `二级BOM ${sheet_name} ${t}T，${span_string}，${((orbital * 10 - 1) / 10)}˂H0≤${orbital}（图号：Z6${t}3${photo_code ? photo_code : inner_photo_code}）`
             arr.push(sumup)
         }
         data.push(arr)

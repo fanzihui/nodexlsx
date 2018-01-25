@@ -21,8 +21,8 @@ data.push(config.bom)
 
 // 引入上一个文件,获取前置码,后置码
 const leg_data  = require('./leg_1')
-console.log('f_num_end',leg_data.f_num_end)
-console.log('c_num_end',leg_data.c_num_end)
+// console.log('f_num_end',leg_data.f_num_end)
+// console.log('c_num_end',leg_data.c_num_end)
 
 // 设置switch case 的值
 const switch_case = 10

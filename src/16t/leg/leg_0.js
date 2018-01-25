@@ -23,7 +23,7 @@ data.push(config.bom)
 
 
 // 引入上一个文件,获取前置码,后置码
-const leg_data  = require(`${config.root}/src/5t/leg/leg_1.js`)
+const leg_data  = require(`${config.root}/src/10t/leg/leg_2.js`)
 
 // console.log('f_num_end',leg_data.f_num_end)
 // console.log('c_num_end',leg_data.c_num_end)
@@ -34,18 +34,18 @@ const switch_case = 10
 const switch_i = 5
 // 设置要变的值中在某处跳动的值和数字
 var switch_num = 2
-var switch_val = 1223
+var switch_val = 1694
 
 // 设置数量范围及基值
-const switch_range = [0,4.7,5.6,6]
+const switch_range = [0,4.8,5.6,6]
 const switch_range_num = 4
 
 // 设置初始值
 var max = workSheetsFromBuffer[0].data.length - 1,
     f_num_front = 7020,
     f_num_end = leg_data.c_num_end+1,
-    c_num_end = 1218,
-    t = 10,
+    c_num_end = 1689,
+    t = 16,
     unit = '件',
     note,
     version = 00,
@@ -54,10 +54,13 @@ var max = workSheetsFromBuffer[0].data.length - 1,
 
 // 设置不变的值
 var switch_arr = [
+    `${f_num_front}-00094`,
+    `${f_num_front}-00095`,
+    `${f_num_front}-00096`,
     `${f_num_front}-00100`, 
-    `${f_num_front}-01224`, 
     `${f_num_front}-00107`, 
-    `${f_num_front}-00108`
+    `${f_num_front}-00108`,
+    `${f_num_front}-01695`, 
 ];
 
 /**
@@ -146,7 +149,7 @@ function setxlsx(max, span, t, code, orbital, span_string, photo_code) {
             arr.push(workSheetsFromBuffer[0].data[i][20])
         } else {
             let inner_photo_code = '1'
-            let sumup = `二级BOM ${sheet_name} ${t}T，${span_string}，${((orbital * 10 - 1) / 10)}˂H0≤${orbital}（图号：Z6${t}S3${photo_code ? photo_code : inner_photo_code}）`
+            let sumup = `二级BOM ${sheet_name} ${t}T，${span_string}，${((orbital * 10 - 1) / 10)}˂H0≤${orbital}（图号：Z6${t}3${photo_code ? photo_code : inner_photo_code}）`
             arr.push(sumup)
         }
         data.push(arr)
@@ -182,7 +185,7 @@ setExcel(span, orbital, '4.5˂S≤11m', 1)
 // const range = {s: {c: 0, r:21 }, e: {c:20, r:21}}; // A22:U2
 // const range = {s: {c: 0, r:31 }, e: {c:20, r:31}}; // A32:U2
 
-const rangeArr = config.merge_cell((17 - (span - 0.5)) / 0.5 * 4, 0, 20, 10)
+const rangeArr = config.merge_cell((17 - (span - 0.5)) / 0.5 * 4, 0, 20, 13)
 // console.log(rangeArr)
 const option = {
     '!merges': rangeArr

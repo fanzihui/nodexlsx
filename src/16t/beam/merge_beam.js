@@ -45,7 +45,7 @@ for(let i = 0 ; i < file_arr.length ;i++){
 // const range = {s: {c: 0, r:21 }, e: {c:20, r:21}}; // A22:U2
 // const range = {s: {c: 0, r:31 }, e: {c:20, r:31}}; // A32:U2
 
-const rangeArr = config.merge_cell((17-(5-0.5))/0.5*4,0,20,18)
+const rangeArr = config.merge_cell((17-(5-0.5))/0.5*4,0,20,19)
 // console.log(rangeArr)
 const option = {'!merges': rangeArr}
 

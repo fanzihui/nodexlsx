@@ -36,7 +36,7 @@ var switch_num = 2
 var switch_val = leg_data.c_num_end + 5
 
 // 设置数量范围及基值
-const switch_range = [0,4.7,5.6,6.4,7.2,7.5]
+const switch_range = [0,4.8,5.6,6.3,7.2,7.5]
 const switch_range_num = 4
 
 // 设置初始值
@@ -53,10 +53,13 @@ var max = workSheetsFromBuffer[0].data.length-1,
 
 // 设置不变的值
 var switch_arr = [
+    `${f_num_front}-00094`,
+    `${f_num_front}-00095`,
+    `${f_num_front}-00096`,
     `${f_num_front}-00100`, 
-    `${f_num_front}-01305`, 
     `${f_num_front}-00107`, 
-    `${f_num_front}-00108`
+    `${f_num_front}-00108`,
+    `${f_num_front}-01776`,
 ];
 /**
  * 
@@ -182,7 +185,7 @@ setExcel(span,orbital,'11˂S≤14m',2)
 // const range = {s: {c: 0, r:21 }, e: {c:20, r:21}}; // A22:U2
 // const range = {s: {c: 0, r:31 }, e: {c:20, r:31}}; // A32:U2
 
-const rangeArr = config.merge_cell((17-(span-0.5))/0.5*4,0,20,10)
+const rangeArr = config.merge_cell((17-(span-0.5))/0.5*4,0,20,13)
 // console.log(rangeArr)
 const option = {'!merges': rangeArr}
 
@@ -197,7 +200,7 @@ var buffer = xlsx.build([
 // 写入文件 
 // const output = dir_name.replace(/(.+\\)(src.+)/ig,'$1')
 // 手动修改是否联动
-var global_test = 0
+var global_test = 1
 
 if(process.env.NODE_ENV == 'dev' && global_test){
     fs.writeFileSync(`${config.root}/output/${t}t/` + `${file_name}${random_name}` + '.xlsx', buffer, 'binary');
