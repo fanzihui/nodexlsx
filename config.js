@@ -110,17 +110,12 @@ var config = {
         return inner_num
     },
     // 产品编码
-    product_code(code,start,mid,end,speed){
-        let num = `${code}${start}-${mid > 10
-            ? mid
-            : '0' + mid}`
-        if(end >= 10){
-            num = num.concat(`-${end}`)
-        } else if(end > 0){
-            num = num.concat(`-0${end}`)
-        } else {
-            num = num.concat()
-        }
+    product_code(code,basis,mid,end,speed){
+        let num = `${code}${basis}-${mid > 10? mid : '0' + mid}`
+        let end_len = end.toString().length
+        let base = '0'
+        // console.log(`-${end_len< 1 ? base.repeat(end_len) : end}`)
+        num = end > 0 ? num.concat(`-${end_len <= 1 ? base.repeat(end_len)+end : end}`) : num;
         num = num.concat(speed)
         return num
     },
@@ -131,27 +126,21 @@ var config = {
     // 小数位取整,加的数与该数小数点位数一致
     deciaml(val, other = 0) {
         let count = val.toString().replace(/(\d+)\.(\d+)/, '$2')
-        let sum = 1
-        for (let i = 0; i <= count.length; i++) {
-            sum = sum * 　10
-        }
+        let sum =  parseInt('1'.concat('0'.repeat(len)))
         return (val * sum + other * sum) / sum
     },
     // 小数位取整,乘的数与该数小数点位数一致
     deciaml_p(val, num) {
         let count = val.toString().replace(/(\d+)\.(\d+)/, '$2')
-        let sum = 1
-        for (let i = 0; i <= count.length; i++) {
-            sum = sum * 　10
-        }
+        let sum =  parseInt('1'.concat('0'.repeat(len)))
         return (val *  num * sum) / sum
     },
     // 设置产品型号,仅针对两种葫芦
-    set_mod(sheet_name, t, span, orbital, gourd, work, way) {
+    set_mod(sheet_name, t, span, orbital, gourd, work, way,speed='(D/G)') {
         // 系列名称英文 eg: BMH
         let series = sheet_name.replace(/(\w+)(.+)/, '$1')
         let inner_gourd = gourd ? 1 : 2
-        let mo = `${series}${this.or_ten(t)}X${this.or_ten(span)}-${this.or_ten(orbital)}-${inner_gourd}A(D/G)-${way}-${work}`
+        let mo = `${series}${this.or_ten(t)}X${this.or_ten(span)}-${this.or_ten(orbital)}-${inner_gourd}A${speed}-${way}-${work}`
         return mo
     },
     // 数量范围, 支腿轨高
